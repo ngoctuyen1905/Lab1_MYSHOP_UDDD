@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'cart_item_card.dart';
 import 'cart_manager.dart';
 class CartScreen extends StatelessWidget {
@@ -6,7 +7,8 @@ class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final cart = CartManager();
+    // final cart = CartManager();
+    final cart = context.watch<CartManager>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
