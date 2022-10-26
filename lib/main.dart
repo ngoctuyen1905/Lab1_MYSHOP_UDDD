@@ -19,16 +19,21 @@ class MyApp extends StatelessWidget {
         //(2) Create and provide AuthManager
         ChangeNotifierProvider(create: (context) => AuthManager(),
         ),
-        ChangeNotifierProvider(create: (ctx) => ProductsManager(),
+        ChangeNotifierProxyProvider<AuthManager,ProductManager>(
+          create: (ctx) => ProductManager(),
+          update: (ctx, authManager, productsManager) {
+            productsManager!.authToken = authManager.authToken;
+            return productsManager;
+          },
         ),
         ChangeNotifierProvider(create: (ctx) => CartManager(),
         ),
         ChangeNotifierProvider(create: (ctx) => OrdersManager(),
         ),
       ],
-      // (3) Cosume the AuthManager instance
+      // (3) Cosumer the AuthManager instance
       child: Consumer<AuthManager>(
-        builder: (ctx, authManager, child){
+        builder: (context, authManager, child){
           return MaterialApp(
             title: 'My Shop',
             debugShowCheckedModeBanner: false,
@@ -63,7 +68,7 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (ctx) {
                     return ProductDetailScreen(
-                      ctx.read<ProductsManager>().findById(productId),
+                      ctx.read<ProductManager>().findById(productId),
                     );
                   },
                 );
@@ -74,7 +79,7 @@ class MyApp extends StatelessWidget {
                   builder: (ctx) {
                     return EditProductScreen(
                       productId != null
-                          ? ctx.read<ProductsManager>().findById(productId)
+                          ? ctx.read<ProductManager>().findById(productId)
                           : null,
                     );
                   },

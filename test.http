@@ -1,0 +1,11 @@
+GET https://myshop-ct484-02-s3-nvmt-default-rtdb.asia-southeast1.firebasedatabase.app/products.json
+Content-Type: application/json
+
+# {
+#     "creatorId": "zYAT2SUi3jQeEAQ356LHDDqx7jD2",
+#     "title": "Nguyen Thi Ngoc Tuyen B1910018",
+#     "description": "lonely boy",
+#     "price": 49.99,
+#     "imageUrl":"https://www.facebook.com/photo/?
+#     fbid=698321284494324&set=a.107577283568730"
+# }

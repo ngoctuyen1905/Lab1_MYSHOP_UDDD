@@ -32,7 +32,7 @@ class UserProductListTile extends StatelessWidget{
     return IconButton(
       icon: const Icon(Icons.delete),
       onPressed: () {
-        context.read<ProductsManager>().deleteProduct(product.id!);
+        context.read<ProductManager>().deleteProduct(product.id!);
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(

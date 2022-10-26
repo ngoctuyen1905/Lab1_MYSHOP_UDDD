@@ -214,7 +214,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     try {
-      final productsManager = context.read<ProductsManager>();
+      final productsManager = context.read<ProductManager>();
       if (_editedProduct.id != null) {
         productsManager.updateProduct(_editedProduct);
       } else {
