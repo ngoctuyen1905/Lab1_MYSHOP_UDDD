@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 class TopRightBadge extends StatelessWidget {
-  const TopRightBadge ({
+  const TopRightBadge({
     super.key,
     required this.child,
     required this.data,
     this.color,
   });
+
   final Widget child;
   final Object data;
-  final Color ? color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context){
     return Stack(
       alignment: Alignment.center,
-      children: [
+      children:[
         child,
         Positioned(
           right: 8,
@@ -26,19 +27,19 @@ class TopRightBadge extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
               color: color ?? Theme.of(context).colorScheme.secondary,
             ),
-            constraints: const BoxConstraints(
-              minWidth: 16,
+            constraints: const BoxConstraints (
+              minWidth:16,
               minHeight: 16,
             ),
             child: Text(
               data.toString(),
-              textAlign: TextAlign.center,
+              textAlign : TextAlign.center,
               style: const TextStyle(
-                fontSize: 10,
+                fontSize:10,
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

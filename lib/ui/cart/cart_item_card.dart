@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:provider/provider.dart';
-import '../../models/cart_item.dart';
-import '../shared/dialog_utils.dart';
-import 'cart_manager.dart';
+import '/ui/cart/cart_manager.dart';
 
-class CartItemCard extends StatelessWidget {
+import '../../models/cart_item.dart' ;
+import '../shared/dialog_utils.dart';
+
+import 'package:provider/provider.dart';
+
+class CartItemCard extends StatelessWidget{
   final String productId;
   final CartItem cardItem;
 
@@ -18,11 +19,9 @@ class CartItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(cardItem.id),
+      key: ValueKey(cardItem. id),
       background: Container(
-        color: Theme
-            .of(context)
-            .errorColor,
+        color:Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),
         margin: const EdgeInsets.symmetric(
@@ -32,18 +31,19 @@ class CartItemCard extends StatelessWidget {
         child: const Icon(
           Icons.delete,
           color: Colors.white,
-          size: 40,),
+          size: 40,
+        ),
       ),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
         return showConfirmDialog(
-          context,
-          'Do you want to remove the item from the cart?',);
+            context,
+            'Do you want remove the item from the cart?'
+        );
       },
       onDismissed: (direction) {
-        // print('Cart item dismissed');
         context.read<CartManager>().removeItem(productId);
-        },
+      },
       child: buildItemCard(),
     );
   }
@@ -55,7 +55,7 @@ class CartItemCard extends StatelessWidget {
         vertical: 4,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets. all(8),
         child: ListTile(
           leading: CircleAvatar(
             child: Padding(
@@ -65,11 +65,12 @@ class CartItemCard extends StatelessWidget {
               ),
             ),
           ),
-          title: Text(cardItem.title),
-          subtitle: Text('Tatal: \$${(cardItem.price * cardItem.quantity)}'),
+          title: Text(cardItem. title),
+          subtitle: Text('Total: \$${(cardItem.price * cardItem.quantity)}'),
           trailing: Text('${cardItem.quantity} x'),
         ),
       ),
     );
   }
+
 }

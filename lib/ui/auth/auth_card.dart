@@ -39,22 +39,22 @@ class _AuthCardState extends State<AuthCard> {
       if (_authMode == AuthMode.login) {
         // Log user in
         await context.read<AuthManager>().login(
-              _authData['email']!,
-              _authData['password']!,
-            );
+          _authData['email']!,
+          _authData['password']!,
+        );
       } else {
         // Sign user up
         await context.read<AuthManager>().signup(
-              _authData['email']!,
-              _authData['password']!,
-            );
+          _authData['email']!,
+          _authData['password']!,
+        );
       }
     } catch (error) {
-      // showErrorDialog(
-      //     context,
-      //     (error is HttpException)
-      //         ? error.toString()
-      //         : 'Authentication failed');
+      showErrorDialog(
+          context,
+          (error is HttpException)
+              ? error.toString()
+              : 'Authentication failed');
     }
 
     _isSubmitting.value = false;
@@ -83,7 +83,7 @@ class _AuthCardState extends State<AuthCard> {
       child: Container(
         height: _authMode == AuthMode.signup ? 320 : 260,
         constraints:
-            BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
+        BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
         width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -126,7 +126,7 @@ class _AuthCardState extends State<AuthCard> {
         ),
       ),
       child:
-          Text('${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
+      Text('${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
     );
   }
 
@@ -154,11 +154,11 @@ class _AuthCardState extends State<AuthCard> {
       obscureText: true,
       validator: _authMode == AuthMode.signup
           ? (value) {
-              if (value != _passwordController.text) {
-                return 'Passwords do not match!';
-              }
-              return null;
-            }
+        if (value != _passwordController.text) {
+          return 'Passwords do not match!';
+        }
+        return null;
+      }
           : null,
     );
   }

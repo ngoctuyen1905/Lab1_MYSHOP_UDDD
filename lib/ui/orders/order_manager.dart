@@ -1,39 +1,42 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../../models/cart_item.dart';
 import '../../models/order_item.dart';
-import 'package:flutter/foundation.dart';
 
 class OrdersManager with ChangeNotifier {
-  final List<OrderItem> _order = [
+  final List<OrderItem> _orders = [
     OrderItem(
-      id:'o1',
-        amount: 59.98,
-        products:[
-          CartItem(
-              id: 'c1',
-              title: 'Red Shirt',
-              quantity: 2,
-              price: 29.99,
-          )
-        ],
+      id: 'o1',
+      amount: 59.98,
+      products: [
+        CartItem(
+          id: 'c1',
+          title:'Red Shirt',
+          price: 29.99,
+          quantity: 2,
+        )
+      ],
       dateTime: DateTime.now(),
     )
   ];
+
   int get orderCount {
-    return _order.length;
+    return _orders.length;
   }
+
   List<OrderItem> get orders {
-    return [..._order];
+    return [..._orders];
   }
+
   void addOrder(List<CartItem> cartProducts, double total) async {
-    _order.insert(
-        0,
-        OrderItem(
+    _orders.insert(
+      0,
+      OrderItem(
           id: 'o${DateTime.now().toIso8601String()}',
-            amount: total,
-            products: cartProducts,
-            dateTime: DateTime.now(),
-        ),
+          amount: total,
+          products: cartProducts,
+          dateTime: DateTime.now()
+      ),
     );
     notifyListeners();
   }

@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../models/product.dart';
-import '../cart/cart_manager.dart';
+import '/ui/cart/cart_manager.dart';
+import '../../models/products.dart';
 import 'product_detail_screen.dart';
-// import 'product_detail_screen.dart';
-class ProductGridTile extends StatelessWidget{
+import 'products_manager.dart';
+import 'package:provider/provider.dart';
+
+class ProductGridTile extends StatelessWidget {
   const ProductGridTile(
-    this.product,{
-      super.key,
-    });
+      this.product, {
+        super.key
+      }
+      );
+
   final Product product;
-  @override 
-  Widget build(BuildContext context){
+
+  @override
+  Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        footer: buildGridFooterBar(context),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              ProductDetailScreen.routeName,
-              arguments: product.id,
-            );
-          },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+          footer: buildGridFooterBar(context),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                ProductDetailScreen.routeName,
+                arguments: product.id,
+              );
+            },
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-      ),
+        )
     );
   }
+
   Widget buildGridFooterBar(BuildContext context){
     return GridTileBar(
       backgroundColor: Colors.black87,
@@ -43,7 +48,7 @@ class ProductGridTile extends StatelessWidget{
             ),
             color: Theme.of(context).colorScheme.secondary,
             onPressed: () {
-              product.isFavorite = !isFavorite;
+              ctx.read<ProductManager>().toggleFavoriteStatus(product);
             },
           );
         },
@@ -56,7 +61,7 @@ class ProductGridTile extends StatelessWidget{
         icon: const Icon(
           Icons.shopping_cart,
         ),
-        onPressed: (){
+        onPressed: () {
           final cart = context.read<CartManager>();
           cart.addItem(product);
           ScaffoldMessenger.of(context)
@@ -76,7 +81,7 @@ class ProductGridTile extends StatelessWidget{
               ),
             );
         },
-        color:Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import '/ui/cart/cart_screen.dart';
+import '/ui/products/products_manager.dart';
 import 'package:provider/provider.dart';
-import 'products_grid.dart';
+
 import '../shared/app_drawer.dart';
-import '../screens.dart';
+
+import 'products_grid.dart';
+
+import '../cart/cart_manager.dart';
 import 'top_right_badge.dart';
 enum FilterOptions { favorites, all }
+
 class ProductsOverviewScreen extends StatefulWidget {
   const ProductsOverviewScreen({super.key});
+
   @override
   State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
 }
+
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   final _showOnlyFavorites = ValueNotifier<bool>(false);
   late Future<void> _fetchProducts;
-
   @override
   void initState(){
     super.initState();
@@ -51,15 +58,15 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   Widget buildShoppingCartIcon() {
     return Consumer<CartManager>(
-      builder: (ctx, cartManager,child){
+      builder: (ctx, cartManager, child) {
         return TopRightBadge(
-          data: CartManager().productCount,
+          data: cartManager.productCount,
           child: IconButton(
             icon: const Icon(
-            Icons.shopping_cart,
+              Icons.shopping_cart,
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed(CartScreen.routeName);
+              Navigator.of(ctx).pushNamed(CartScreen.routeName);
             },
           ),
         );

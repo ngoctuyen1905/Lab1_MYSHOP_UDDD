@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lab1/models/product.dart';
-import '../models/product.dart';
+import '../models/products.dart';
 import '../models/auth_token.dart';
 import 'firebase_service.dart';
+
 class ProductsService extends FirebaseService {
   ProductsService([AuthToken? authToken]) : super(authToken);
   Future<List<Product>> fetchProducts([bool filterByUser = false]) async {

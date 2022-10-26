@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../models/auth_token.dart';
-import '../../models/products.dart';
-import '../../models/product.dart';
+import '../../../models/products.dart';
 import '../../services/products_service.dart';
 
 class ProductManager with ChangeNotifier {
@@ -9,13 +8,15 @@ class ProductManager with ChangeNotifier {
   final ProductsService _productsService;
   ProductManager([AuthToken? authToken])
       : _productsService = ProductsService(authToken);
-  set authToken (AuthToken? authToken) {
+  set authToken(AuthToken? authToken) {
     _productsService.authToken = authToken;
   }
+
   Future<void> fetchProducts([bool filterByUser = false]) async {
     _item = await _productsService.fetchProducts(filterByUser);
     notifyListeners();
   }
+
   Future<void> addProducts(Product product) async {
     final newProduct = await _productsService.addProduct(product);
     if (newProduct != null) {
@@ -23,7 +24,36 @@ class ProductManager with ChangeNotifier {
       notifyListeners();
     }
   }
-// class ProductsManager with ChangeNotifier {
+
+  Future<void> updateProduct(Product product) async {
+    final index = _items.indexWhere((item) => item.id == product.id);
+    if (index >= 0) {
+      if (await _productsService.updateProduct(product)) {
+        _items[index] = product;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> deleteProduct(String id) async {
+    final index = _items.indexWhere((item) => item.id == id);
+    Product? existingProduct = _items[index];
+    _items.removeAt(index);
+    notifyListeners();
+    if (!await _productsService.deleteProduct(id)) {
+      _items.insert(index, existingProduct);
+      notifyListeners();
+    }
+  }
+
+  Future<void> toggleFavoriteStatus(Product product) async {
+    final savedStatus = product.isFavorite;
+    product.isFavorite = !savedStatus;
+    if (!await _productsService.saveFavoriteStatus(product)) {
+      product.isFavorite = savedStatus;
+    }
+  }
+
   final List<Product> _items = [
     // Product(
     //   id: 'p1',
@@ -60,6 +90,7 @@ class ProductManager with ChangeNotifier {
     //   isFavorite: true,
     // ),
   ];
+
   int get itemCount {
     return _items.length;
   }
@@ -68,34 +99,11 @@ class ProductManager with ChangeNotifier {
     return [..._items];
   }
 
-  List<Product> get favoriteItems{
+  List<Product> get favoriteItems {
     return _items.where((prodItem) => prodItem.isFavorite).toList();
   }
+
   Product findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
-  }
-  void addProduct( Product product){
-    _items.add(
-      product.copyWith(
-        id: 'p${DateTime.now().toIso8601String()}',
-      ),
-    );
-    notifyListeners();
-  }
-  void updateProduct(Product product){
-    final index = _items.indexWhere((item) => item.id == product.id);
-    if (index >= 0){
-      _items[index] = product;
-      notifyListeners();
-    }
-  }
-  void toggleFavoriteStatus(Product product){
-    final saveStatus = product.isFavorite;
-    product.isFavorite = !saveStatus;
-  }
-  void deleteProduct(String id){
-    final index = _items.indexWhere((item) => item.id == id);
-    _items.removeAt(index);
-    notifyListeners();
   }
 }

@@ -24,5 +24,4 @@ class CartItem {
       price: price ?? this.price,
     );
   }
-
 }
